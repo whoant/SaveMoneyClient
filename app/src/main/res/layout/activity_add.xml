@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#D9D9D9"
+    tools:context=".Fragment.AccountFragment">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/tbTK"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/purple_500"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/toolbar1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Thêm tài khoản"
+            android:textColor="@color/white"
+            android:textSize="20sp" />
+    </androidx.appcompat.widget.Toolbar>
+
+
+    <RelativeLayout
+        android:id="@+id/RLb"
+        android:layout_width="match_parent"
+        android:layout_height="190dp"
+        android:layout_marginTop="32dp"
+        android:background="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/RLa"
+        tools:layout_editor_absoluteX="0dp">
+
+        <EditText
+            android:id="@+id/edtName"
+            android:layout_width="350dp"
+            android:layout_height="61dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="3dp"
+            android:ems="10"
+            android:hint="Tên tài khoản"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <EditText
+            android:id="@+id/edtNote"
+            android:layout_width="350dp"
+            android:layout_height="61dp"
+            android:layout_below="@+id/edtName"
+            android:layout_alignParentEnd="true"
+            android:ems="10"
+            android:hint="Ghi chú"
+            android:inputType="textPersonName"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edtName" />
+
+        <ImageView
+            android:id="@+id/imgAcc"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="10dp"
+            android:layout_toStartOf="@+id/edtName"
+            app:srcCompat="@drawable/ic_baseline_account_circle_24" />
+
+        <ImageView
+            android:id="@+id/imgNote"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_below="@+id/imgAcc"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="7dp"
+            android:layout_toStartOf="@+id/edtNote"
+            app:srcCompat="@drawable/ic_baseline_sticky_note_2_24" />
+
+        <Spinner
+            android:id="@+id/spinnerWallet"
+            android:layout_width="350dp"
+            android:layout_height="61dp"
+            android:layout_below="@+id/edtNote"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="1dp"
+            android:entries="@array/spinner_kind"
+            android:spinnerMode="dropdown"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/edtNote" />
+
+        <ImageView
+            android:id="@+id/imgTM"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_below="@+id/imgNote"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="7dp"
+            android:layout_toStartOf="@+id/spinnerWallet"
+            app:srcCompat="@drawable/ic_baseline_monetization_on_24" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/RLa"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/tbTK"
+        tools:layout_editor_absoluteX="0dp">
+
+        <TextView
+            android:id="@+id/txtSodu"
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:text=" Số dư ban đầu"
+            android:textColor="#000000"
+            android:textSize="15dp"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <EditText
+            android:id="@+id/edtTien"
+            android:layout_width="400dp"
+            android:layout_height="61dp"
+            android:layout_below="@+id/txtSodu"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="7dp"
+            android:layout_marginTop="14dp"
+            android:ems="10"
+            android:gravity="right"
+            android:hint="0"
+            android:inputType="text"
+            android:textColor="@color/purple_500"
+            android:textSize="30dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtSodu" />
+
+        <TextView
+            android:id="@+id/txtDonvi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtSodu"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="1dp"
+            android:layout_toEndOf="@+id/edtTien"
+            android:text="Đ"
+            android:textSize="20dp" />
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btnLuu"
+        android:layout_width="120dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="52dp"
+        android:backgroundTint="#6200EE"
+        android:text="LƯU"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/RLb" />
+
+    <Button
+        android:id="@+id/btnHuy"
+        android:layout_width="120dp"
+        android:layout_height="55dp"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="52dp"
+        android:backgroundTint="#FF0000"
+        android:text="Xóa"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/RLb" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
