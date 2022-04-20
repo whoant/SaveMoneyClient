@@ -1,5 +1,6 @@
 package com.example.savemoney;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -12,12 +13,14 @@ import com.example.savemoney.Fragment.AccountFragment;
 import com.example.savemoney.Fragment.CreateFragment;
 import com.example.savemoney.Fragment.HomeFragment;
 import com.example.savemoney.Fragment.SettingFragment;
+import com.example.savemoney.Services.SyncService;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
 public class MainActivity extends AppCompatActivity {
 
     BottomNavigationView bottomNavigationView;
+    Intent serviceIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +39,9 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        serviceIntent = new Intent(this, SyncService.class);
+        startService(serviceIntent);
 
     }
 
@@ -58,6 +64,12 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.replace(R.id.fmContainer, fragment);
         fragmentTransaction.commit();
+    }
+
+    @Override
+    protected void onDestroy() {
+        stopService(serviceIntent);
+        super.onDestroy();
     }
 
 }

@@ -16,6 +16,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SaveMoney"
         android:usesCleartextTraffic="true">
+        <service
+            android:name=".Services.SyncService"
+            android:enabled="true"
+            android:exported="true"></service>
+
         <activity
             android:name=".TransactionHistoryActivity"
             android:exported="true" />

@@ -22,7 +22,7 @@ import retrofit2.http.PUT;
 public interface ApiService {
 
 //    String BASE_URL = "http://192.168.1.15:3000/";
-    String BASE_URL = "http://94.237.76.252:3000/";
+    String BASE_URL = "http://10.0.2.2:3000/";
 
     Gson gson = new GsonBuilder()
             .setDateFormat("yyy-MM-dd HH:mm:ss")

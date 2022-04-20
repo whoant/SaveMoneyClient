@@ -2,6 +2,7 @@ package com.example.savemoney.Database;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -9,11 +10,20 @@ import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import com.example.savemoney.API.ApiService;
+import com.example.savemoney.API.model.UpdateRequest;
+import com.example.savemoney.API.model.UpdateResponse;
 import com.example.savemoney.Model.AccountModel;
 import com.example.savemoney.Model.SpendingModel;
+import com.example.savemoney.utiles.EmptyCallback;
+import com.example.savemoney.utiles.Helpers;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class DBHelper extends SQLiteOpenHelper {
     public static final String TABLE_ACCOUNT_NAME = "account";
@@ -34,14 +44,17 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String COLUMN_SPENDING_TIME = "time";
     private static final String COLUMN_SPENDING_ACCOUNT_ID = "account_id";
 
+    private SharedPreferences sharedPreferences;
+
     public DBHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-
+        sharedPreferences = context.getSharedPreferences("data", Context.MODE_PRIVATE);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         createDatabase(db);
+
     }
 
     @Override
@@ -93,6 +106,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         long insert = db.insert(TABLE_ACCOUNT_NAME, null, cv);
         db.close();
+        this.uploadData();
     }
 
     public AccountModel getAccountById(int id) {
@@ -168,6 +182,7 @@ public class DBHelper extends SQLiteOpenHelper {
         String query = "DELETE FROM " + TABLE_ACCOUNT_NAME + " WHERE " + COLUMN_ACCOUNT_ID + " = " + accountModel.getId();
         db.execSQL(query);
         db.close();
+        this.uploadData();
     }
 
     public void updateAccount(AccountModel accountModel) {
@@ -180,6 +195,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         long tmp = db.update(TABLE_ACCOUNT_NAME, cv, COLUMN_ACCOUNT_ID + "=" + accountModel.getId(), null);
         db.close();
+        this.uploadData();
     }
 
     public boolean addSpendingAccount(SpendingModel spendingModel) {
@@ -195,7 +211,9 @@ public class DBHelper extends SQLiteOpenHelper {
 
         long insert = db.insert(TABLE_SPENDING_NAME, null, cv);
         db.close();
+        this.uploadData();
         return insert != -1;
+
     }
 
     public ArrayList<SpendingModel> getAllSpendingAccountsByAccountId(int accountId) {
@@ -261,6 +279,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
         db.execSQL(query);
         db.close();
+        this.uploadData();
         return true;
     }
 
@@ -277,7 +296,18 @@ public class DBHelper extends SQLiteOpenHelper {
 
         long tmp = db.update(TABLE_SPENDING_NAME, cv, COLUMN_SPENDING_ID + "=" + spendingModel.getId(), null);
         db.close();
+        this.uploadData();
         return tmp;
+    }
+
+    public void uploadData(){
+        List<AccountModel> accountModels = this.getAccountsToSync();
+        String token = sharedPreferences.getString("token", "");
+        int hour = sharedPreferences.getInt("hour", -1);
+        int minute = sharedPreferences.getInt("minute", -1);
+
+        UpdateRequest updateRequest = new UpdateRequest(accountModels, hour + ":" + minute);
+        ApiService.apiService.update("Bearer " + token, updateRequest).enqueue(new EmptyCallback<>());
     }
 
 
