@@ -40,8 +40,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        serviceIntent = new Intent(this, SyncService.class);
-        startService(serviceIntent);
+//        serviceIntent = new Intent(this, SyncService.class);
+  //      startService(serviceIntent);
 
     }
 
