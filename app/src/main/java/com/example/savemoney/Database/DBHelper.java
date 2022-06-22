@@ -44,10 +44,18 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String COLUMN_SPENDING_TIME = "time";
     private static final String COLUMN_SPENDING_ACCOUNT_ID = "account_id";
 
+    public boolean isSync = false;
+
     private SharedPreferences sharedPreferences;
 
     public DBHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        sharedPreferences = context.getSharedPreferences("data", Context.MODE_PRIVATE);
+    }
+
+    public DBHelper(@Nullable Context context, boolean isSync) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        this.isSync = isSync;
         sharedPreferences = context.getSharedPreferences("data", Context.MODE_PRIVATE);
     }
 
@@ -301,6 +309,7 @@ public class DBHelper extends SQLiteOpenHelper {
     }
 
     public void uploadData(){
+        if (this.isSync) return;
         List<AccountModel> accountModels = this.getAccountsToSync();
         String token = sharedPreferences.getString("token", "");
         int hour = sharedPreferences.getInt("hour", -1);

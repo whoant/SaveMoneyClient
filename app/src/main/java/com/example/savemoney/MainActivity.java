@@ -2,6 +2,7 @@ package com.example.savemoney;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
@@ -40,8 +41,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        serviceIntent = new Intent(this, SyncService.class);
-  //      startService(serviceIntent);
+        if (serviceIntent == null) {
+            serviceIntent = new Intent(this, SyncService.class);
+            startService(serviceIntent);
+        }
 
     }
 

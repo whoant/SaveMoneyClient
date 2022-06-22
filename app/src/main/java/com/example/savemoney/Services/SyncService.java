@@ -25,6 +25,7 @@ import com.example.savemoney.Receiver.AlarmReceiver;
 
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -66,8 +67,9 @@ public class SyncService extends Service {
         }
 
         public void syncData(){
-            dbHelper = new DBHelper(getApplicationContext());
+            dbHelper = new DBHelper(getApplicationContext(), true);
             String token = sharedPreferences.getString("token", "");
+            if (Objects.equals(token, "")) return;
             ApiService.apiService.get("Bearer " + token).enqueue(new retrofit2.Callback<ActivitiesResponse>() {
                 @Override
                 public void onResponse(Call<ActivitiesResponse> call, Response<ActivitiesResponse> response) {
@@ -76,12 +78,12 @@ public class SyncService extends Service {
                         return;
                     }
                     ActivitiesResponse activitiesResponse = response.body();
-                    dbHelper.deleteAllDatabase();
+                    if (!activitiesResponse.getIsUpdate()) return;
 
+                    dbHelper.deleteAllDatabase();
 
                     List<AccountModel> accountModels = activitiesResponse.getActivities();
                     for (AccountModel account : accountModels) {
-
                         dbHelper.addAccount(account);
                         for (SpendingModel spending : account.getSpendingModels()) {
                             dbHelper.addSpendingAccount(spending);
@@ -152,10 +154,7 @@ public class SyncService extends Service {
 
             alarmManager.cancel(pendingIntent);
         }
-
     }
-
-
 
     @Override
     public void onCreate() {

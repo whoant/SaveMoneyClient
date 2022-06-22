@@ -7,12 +7,14 @@ import java.util.List;
 public class ActivitiesResponse {
     private List<AccountModel> activities;
     private String time, message;
+    private Boolean isUpdate;
 
 
-    public ActivitiesResponse(List<AccountModel> activities, String time, String message) {
+    public ActivitiesResponse(List<AccountModel> activities, String time, String message, Boolean isUpdate) {
         this.activities = activities;
         this.time = time;
         this.message = message;
+        this.isUpdate = isUpdate;
     }
 
     public String getMessage() {
@@ -37,5 +39,13 @@ public class ActivitiesResponse {
 
     public void setActivities(List<AccountModel> activities) {
         this.activities = activities;
+    }
+
+    public Boolean getIsUpdate() {
+        return isUpdate;
+    }
+
+    public void setIsUpdate(Boolean update) {
+        isUpdate = update;
     }
 }
