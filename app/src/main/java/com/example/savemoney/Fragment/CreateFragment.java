@@ -6,7 +6,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -58,7 +57,7 @@ public class CreateFragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     private static final String[] optionSpend = {"Chi tiền", "Thu tiền"};
     private static final String[] pay = {"Ăn uống", "Hoá đơn", "Đi lại", "Khác"};
-    private static final String[] collect = {"Lương", "Thưởng", "Lãi"};
+    private static final String[] collect = {"Lương", "Thưởng", "Lãi", "Khác"};
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -168,8 +167,12 @@ public class CreateFragment extends Fragment {
             }
         });
 
+        ArrayList<String> listType = new ArrayList<>(pay.length);
+        for (String item : pay) {
+            listType.add(item);
+        }
         //Chi tiet
-        ArrayAdapter<String> arrayAdapterType = new ArrayAdapter<String>(getContext(), R.layout.option_item, pay);
+        ArrayAdapter<String> arrayAdapterType = new ArrayAdapter<String>(getContext(), R.layout.option_item, listType);
 //        autoType.setText(optionTypeStatic[0][0], false);
         autoType.setAdapter(arrayAdapterType);
 
@@ -193,26 +196,19 @@ public class CreateFragment extends Fragment {
                 currentSpend = position;
                 currentType = -1;
                 autoType.setText("");
-
+                listType.clear();
                 arrayAdapterType.clear();
 
-                ArrayList<String> temp;
                 if (position == 0) {
-                    temp = new ArrayList<>(pay.length);
                     for (String item : pay) {
-                        temp.add(item);
+                        listType.add(item);
                     }
                 } else {
-                    temp = new ArrayList<>(collect.length);
                     for (String item : collect) {
-                        temp.add(item);
+                        listType.add(item);
                     }
                 }
-                arrayAdapterType.addAll(new ArrayList<>(temp));
-                Log.d("LOG", position + "");
-                Log.d("LOG", temp.size() + "");
-                Log.d("LOG", temp.hashCode() + "");
-
+                arrayAdapterType.addAll(listType);
                 arrayAdapterType.notifyDataSetChanged();
             }
         });
@@ -258,7 +254,6 @@ public class CreateFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 materialDatePicker.show(requireActivity().getSupportFragmentManager(), "datePicker");
-
             }
         });
 
@@ -310,7 +305,6 @@ public class CreateFragment extends Fragment {
                     return;
                 }
 
-
                 String date = day + "/" + month + "/" + year;
                 String time = hour + ":" + minute;
 
@@ -319,7 +313,6 @@ public class CreateFragment extends Fragment {
 
                 AccountModel accountModel = accountModels.get(currentAccount);
                 int balance = Integer.parseInt(currentBalance);
-
 
                 SpendingModel spendingModel = new SpendingModel(balance, currentType, description, date, time, type, accountModel.getId());
                 boolean res = dbHelper.addSpendingAccount(spendingModel);

@@ -41,7 +41,7 @@ import java.util.List;
 
 public class EditTransactionActivity extends AppCompatActivity {
     private static final String[] optionSpend = {"Chi tiền", "Thu tiền"};
-    private static final String[][] optionTypeStatic = {{"Ăn uống", "Hoá đơn", "Đi lại", "Khác"}, {"Lương", "Thưởng", "Lãi"}};
+    private static final String[][] optionTypeStatic = {{"Ăn uống", "Hoá đơn", "Đi lại", "Khác"}, {"Lương", "Thưởng", "Lãi", "Khác"}};
 
     private AutoCompleteTextView autoSpend, autoType, autoAccount, edtAccount;
     private EditText edtBalance, edtDescription, edtDate, edtTime;
